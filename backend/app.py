@@ -1,4 +1,5 @@
 from fastapi import FastAPI, UploadFile, File
+from fastapi.middleware.cors import CORSMiddleware
 import whisper
 from pydantic import BaseModel
 import requests
@@ -6,10 +7,19 @@ import json
 import re
 
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000"],  # Allow requests from frontend
+    allow_credentials=True,
+    allow_methods=["*"],  # Allow all HTTP methods
+    allow_headers=["*"],  # Allow all headers
+)
+
 model = whisper.load_model("base")  # Load Whisper model for speech-to-text
 
 OLLAMA_URL = "http://localhost:11434/api/generate"  # Ollama API endpoint
-DEEPSEEK_MODEL = "deepseek-r1:1.5b"  # Model name in Ollama
+DEEPSEEK_MODEL = "deepseek-r1:7b"  # Model name in Ollama
 
 class CompareRequest(BaseModel):
     spoken_text: str
@@ -30,13 +40,24 @@ async def transcribe(file: UploadFile = File(...)):
 def analyze_ollama(spoken_text, formal_text):
     """Use Ollama's DeepSeek LLM to analyze differences and suggest improvements."""
     prompt = f"""
-    Compare the spoken text with only the formal text. Identify:
-    - Important missing points in the spoken text that are there in the formal text
-    - Suggest to add these missing points in the spoken text even if it is a small point
+Compare the spoken text with the formal text while focusing on meaningful content. Ignore filler words and conversational phrases like "you know", "like", "uh", etc. 
 
-    Spoken Text: {spoken_text}
-    Formal Text: {formal_text}
-    """
+### Instructions:
+- Identify **key missing points** in the spoken text that are present in the formal text.
+- Ignore minor differences like rewording unless they change the meaning.
+- DO NOT suggest adding unnecessary conversational phrases or repetition.
+- Provide **concise suggestions** to improve the spoken text.
+
+### Texts:
+- Spoken Text: {spoken_text}
+- Formal Text: {formal_text}
+
+### Output Format:
+1. **Important Missing Points:** List the key points missing from the spoken text.
+2. **Suggested Addition:** Tell the user what is mising from their answer only in comparison with the formal text. (while keeping it natural).
+3. **More information:** Give some additional insights that can be added which is not there even in the formal answer.
+"""
+
     
     payload = {
         "model": DEEPSEEK_MODEL,
