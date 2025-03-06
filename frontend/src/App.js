@@ -20,7 +20,7 @@ const App = () => {
 
   return (
     <div>
-      <h1>Speech Accuracy Checker</h1>
+      <h1>VoiceGrade : Analyse your Answers</h1>
       <TextInput value={formalText} onChange={setFormalText} />
       <Recorder onTranscribe={handleStop} />
       <Result analysis={analysis} />
