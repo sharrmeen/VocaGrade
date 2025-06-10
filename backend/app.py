@@ -6,6 +6,7 @@ from pydantic import BaseModel
 import requests
 import json
 import re
+import os
 
 load_dotenv()
 app = FastAPI()
