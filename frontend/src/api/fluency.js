@@ -1,7 +1,7 @@
 export async function analyzeFluency(audioFile){
-    const formData=new formData();
+    const formData=new FormData();
     formData.append("file",audioFile);
-    const response = await fetch("/api/analyze-fluency/",{
+    const response = await fetch("http://localhost:8000/api/analyze-fluency/", {
         method:"POST",
         body: formData,
     });
