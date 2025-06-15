@@ -44,4 +44,3 @@ Give your response in the following JSON format:
             return{"error":"No valid JSON found in Gemini response."}
     except Exception as e:
         return{"error":str(e)}
-        
