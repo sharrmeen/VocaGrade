@@ -1,6 +1,6 @@
 from fastapi import FastAPI, UploadFile, File
 from fastapi.middleware.cors import CORSMiddleware
-from routers import fluency,script
+from routers import fluency,script,pronunciation
 from dotenv import load_dotenv
 import whisper
 from pydantic import BaseModel
@@ -22,6 +22,7 @@ app.add_middleware(
 
 app.include_router(fluency.router, prefix="/api")
 app.include_router(script.router, prefix="/api")
+app.include_router(pronunciation, prefix="/api")
 
 # model = whisper.load_model("base")  # Load Whisper model for speech-to-text
 
