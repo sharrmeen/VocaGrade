@@ -22,7 +22,7 @@ app.add_middleware(
 
 app.include_router(fluency.router, prefix="/api")
 app.include_router(script.router, prefix="/api")
-app.include_router(pronunciation, prefix="/api")
+app.include_router(pronunciation.router, prefix="/api")
 
 # model = whisper.load_model("base")  # Load Whisper model for speech-to-text
 
