@@ -20,6 +20,7 @@ app.add_middleware(
     allow_headers=["*"],  # Allow all headers
 )
 
+# routes
 app.include_router(fluency.router, prefix="/api")
 app.include_router(script.router, prefix="/api")
 app.include_router(pronunciation.router, prefix="/api")
