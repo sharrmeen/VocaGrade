@@ -1,4 +1,4 @@
-from fastapi import FastAPI, UploadFile, File
+from fastapi import FastAPI, UploadFile, File,Form
 from fastapi.middleware.cors import CORSMiddleware
 from routers import fluency,script,pronunciation
 from dotenv import load_dotenv
@@ -11,19 +11,56 @@ import os
 
 load_dotenv()
 app = FastAPI()
-
+origins = [
+    "http://localhost:8080",  # your frontend origin
+    "http://127.0.0.1:8080",  # optional
+]
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],  # Allow requests from frontend
+    allow_origins=origins,  # Allow requests from frontend
     allow_credentials=True,
     allow_methods=["*"],  # Allow all HTTP methods
     allow_headers=["*"],  # Allow all headers
 )
 
-# routes
-app.include_router(fluency.router, prefix="/api")
-app.include_router(script.router, prefix="/api")
-app.include_router(pronunciation.router, prefix="/api")
+# folder to store uploads
+UPLOAD_FOLDER = "uploads"
+os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+
+@app.post("/api/upload-audio")
+async def upload_audio(
+    audio: UploadFile = File(...),
+    script: str = Form(None),
+    theme: str = Form(None)
+):
+    # Save audio
+    audio_path = os.path.join(UPLOAD_FOLDER, audio.filename)
+    with open(audio_path, "wb") as f:
+        f.write(await audio.read())
+
+    # Optionally save script to file
+    script_path = None
+    if script:
+        script_filename = f"{os.path.splitext(audio.filename)[0]}_script.txt"
+        script_path = os.path.join(UPLOAD_FOLDER, script_filename)
+        with open(script_path, "w", encoding="utf-8") as f:
+            f.write(script)
+
+    response = {
+        "audio_filename": audio.filename,
+        "audio_path": audio_path,
+        "script_provided": bool(script),
+        "script_path": script_path,
+        "theme": theme if theme else None
+    }
+
+    return response
+
+
+# # routes
+# app.include_router(fluency.router, prefix="/api")
+# app.include_router(script.router, prefix="/api")
+# app.include_router(pronunciation.router, prefix="/api")
 
 # model = whisper.load_model("base")  # Load Whisper model for speech-to-text
 

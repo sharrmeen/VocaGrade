@@ -34,37 +34,27 @@ const Index = () => {
   // Upload both audio + script to backend
   const uploadData = async () => {
     if (!audioFile) return;
-
+  
     const formData = new FormData();
-    formData.append('audio', audioFile, 'recording.webm');
-    if (scriptText.trim()) {
-      formData.append('script', scriptText);
-    }
-
+    formData.append("audio", audioFile, "recording.webm");
+    if (scriptText.trim()) formData.append("script", scriptText);
+    if (theme.trim()) formData.append("theme", theme);
+  
     try {
-      const res = await fetch('/api/upload-audio', {
-        method: 'POST',
+      const res = await fetch("http://localhost:8000/api/upload-audio", {
+        method: "POST",
         body: formData,
       });
-
-      if (!res.ok) throw new Error(`Server error: ${res.status}`);
+  
       const data = await res.json();
-
-      toast({
-        title: "Upload Complete",
-        description: "Your recording has been sent for analysis.",
-      });
-
-      console.log('Server response:', data);
+      console.log("Backend response:", data);
+      toast({ title: "Upload Complete", description: "Data sent for analysis" });
     } catch (error) {
       console.error(error);
-      toast({
-        title: "Upload Failed",
-        description: "Could not send data to backend. Try again.",
-        variant: "destructive",
-      });
+      toast({ title: "Upload Failed", description: "Check backend" });
     }
   };
+  
 
   const isReadyToAnalyze = !!audioFile;
 
@@ -101,7 +91,7 @@ const Index = () => {
               theme={theme} 
               setTheme={setTheme} />
               
-              <ScriptUpload/>
+              <ScriptUpload onScriptReady={handleScriptChange}/>
             </div>
             <button
               onClick={uploadData}
