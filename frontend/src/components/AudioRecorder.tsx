@@ -2,18 +2,24 @@ import { useState, useRef, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Mic, Square, Play, Pause, Download } from 'lucide-react';
+import { Dispatch, SetStateAction } from "react";
 import { cn } from '@/lib/utils';
 
 interface AudioRecorderProps {
   onAudioReady?: (blob: Blob) => void;
+  theme: string;                      
+  setTheme: Dispatch<SetStateAction<string>>;
 }
 
-export default function AudioRecorder({ onAudioReady }: AudioRecorderProps) {
+
+
+export default function AudioRecorder({ onAudioReady,theme,setTheme }: AudioRecorderProps) {
   const [isRecording, setIsRecording] = useState(false);
   const [audioBlob, setAudioBlob] = useState<Blob | null>(null);
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [recordingTime, setRecordingTime] = useState(0);
+
 
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -174,7 +180,21 @@ export default function AudioRecorder({ onAudioReady }: AudioRecorderProps) {
             "bg-recording"
           )} />
         )}
+        <div className="space-y-2 mt-6" style={{marginTop:'50px'}}>
+        <label className="text-sm font-medium">Enter a theme (optional)</label>
+        <input
+          
+          type="text"
+          value={theme}
+          onChange={(e) => setTheme(e.target.value)}
+          className="theme-input"
+          placeholder="e.g. Climate Change, AI Ethics..."
+        />
+        </div>
+
+        
       </CardContent>
+      
     </Card>
   );
 }

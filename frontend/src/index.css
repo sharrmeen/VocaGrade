@@ -6,6 +6,7 @@
 
 @layer base {
   :root {
+    
     --background: 321 47% 97%;
     --foreground: 234 16% 35%;
 
@@ -117,4 +118,134 @@
   body {
     @apply bg-background text-foreground;
   }
+}
+
+.button {
+  --tw-bg-opacity: 1;
+  background-color: hsl(var(--primary) / var(--tw-bg-opacity));
+  --tw-text-opacity: 1;
+  color: hsl(var(--primary-foreground) / var(--tw-text-opacity));
+  border-radius: var(--radius);
+  padding: 0.5rem 1rem;
+  font-weight: 600;
+  transition-property: background-color, color, border-color, box-shadow, transform;
+  transition-duration: 150ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+  cursor: pointer;
+  border: 1px solid transparent;
+}
+
+.button:hover {
+  --tw-bg-opacity: 0.9;
+  background-color: hsl(var(--primary) / var(--tw-bg-opacity));
+}
+
+.button:focus-visible {
+  outline: 2px solid hsl(var(--ring));
+  outline-offset: 2px;
+}
+
+.button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.button-outline {
+  background-color: transparent;
+  --tw-text-opacity: 1;
+  color: hsl(var(--primary) / var(--tw-text-opacity));
+  border-color: hsl(var(--input));
+}
+
+.button-outline:hover {
+  --tw-bg-opacity: 0.1;
+  background-color: hsl(var(--primary) / var(--tw-bg-opacity));
+}
+
+.button-secondary {
+  --tw-bg-opacity: 1;
+  background-color: hsl(var(--secondary) / var(--tw-bg-opacity));
+  --tw-text-opacity: 1;
+  color: hsl(var(--secondary-foreground) / var(--tw-text-opacity));
+}
+
+.button-secondary:hover {
+  --tw-bg-opacity: 0.8;
+  background-color: hsl(var(--secondary) / var(--tw-bg-opacity));
+}
+
+.button-ghost {
+  background-color: transparent;
+  --tw-text-opacity: 1;
+  color: hsl(var(--foreground) / var(--tw-text-opacity));
+}
+
+.button-ghost:hover {
+  --tw-bg-opacity: 0.1;
+  background-color: hsl(var(--accent) / var(--tw-bg-opacity));
+}
+
+.button-link {
+  background-color: transparent;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  --tw-text-opacity: 1;
+  color: hsl(var(--primary) / var(--tw-text-opacity));
+  padding: 0;
+  height: auto;
+}
+
+.button-link:hover {
+  --tw-text-opacity: 0.8;
+  color: hsl(var(--primary) / var(--tw-text-opacity));
+}
+
+/* Specific button styles for VoiceGrade */
+.button-recording {
+  --tw-bg-opacity: 1;
+  background-color: hsl(var(--recording) / var(--tw-bg-opacity));
+  --tw-text-opacity: 1;
+  color: hsl(var(--recording-foreground) / var(--tw-text-opacity));
+}
+
+.button-success {
+  --tw-bg-opacity: 1;
+  background-color: hsl(var(--success) / var(--tw-bg-opacity));
+  --tw-text-opacity: 1;
+  color: hsl(var(--success-foreground) / var(--tw-text-opacity));
+}
+
+.button-warning {
+  --tw-bg-opacity: 1;
+  background-color: hsl(var(--warning) / var(--tw-bg-opacity));
+  --tw-text-opacity: 1;
+  color: hsl(var(--warning-foreground) / var(--tw-text-opacity));
+}
+
+.button-destructive {
+  --tw-bg-opacity: 1;
+  background-color: hsl(var(--destructive) / var(--tw-bg-opacity));
+  --tw-text-opacity: 1;
+  color: hsl(var(--destructive-foreground) / var(--tw-text-opacity));
+}
+
+.theme-input {
+  border: 1px solid hsl(var(--input));
+  background-color: hsl(var(--card));
+  color: hsl(var(--card-foreground));
+  border-radius: var(--radius);
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem; /* text-sm */
+  width: 100%;
+  transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.theme-input:focus {
+  outline: none;
+  border-color: hsl(var(--primary));
+  box-shadow: 0 0 0 2px hsl(var(--ring) / 0.3);
 }

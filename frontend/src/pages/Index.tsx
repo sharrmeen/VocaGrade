@@ -9,8 +9,12 @@ import { useToast } from '@/hooks/use-toast';
 
 const Index = () => {
   const { toast } = useToast();
+  const [audioFile, setAudioFile] = useState<Blob | null>(null);
+  const [scriptText, setScriptText] = useState<string>('');
+  const [theme, setTheme] = useState<string>('');
 
   const handleAudioReady = (blob: Blob) => {
+    setAudioFile(blob);
     console.log('Audio recorded:', blob);
     console.log('Audio size:', blob.size, 'bytes');
     console.log('Audio type:', blob.type);
@@ -21,6 +25,48 @@ const Index = () => {
       description: `Successfully recorded ${(blob.size / 1024).toFixed(1)}KB audio file`,
     });
   };
+
+   // Called when script changes
+  const handleScriptChange = (text: string) => {
+    setScriptText(text);
+  };
+
+  // Upload both audio + script to backend
+  const uploadData = async () => {
+    if (!audioFile) return;
+
+    const formData = new FormData();
+    formData.append('audio', audioFile, 'recording.webm');
+    if (scriptText.trim()) {
+      formData.append('script', scriptText);
+    }
+
+    try {
+      const res = await fetch('/api/upload-audio', {
+        method: 'POST',
+        body: formData,
+      });
+
+      if (!res.ok) throw new Error(`Server error: ${res.status}`);
+      const data = await res.json();
+
+      toast({
+        title: "Upload Complete",
+        description: "Your recording has been sent for analysis.",
+      });
+
+      console.log('Server response:', data);
+    } catch (error) {
+      console.error(error);
+      toast({
+        title: "Upload Failed",
+        description: "Could not send data to backend. Try again.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const isReadyToAnalyze = !!audioFile;
 
   return (
     <div className="min-h-screen bg-background">
@@ -51,9 +97,25 @@ const Index = () => {
             </div>
             
             <div className="grid gap-6 md:grid-cols-2 max-w-4xl mx-auto">
-              <AudioRecorder onAudioReady={handleAudioReady} />
-              <ScriptUpload />
+              <AudioRecorder onAudioReady={handleAudioReady} 
+              theme={theme} 
+              setTheme={setTheme} />
+              
+              <ScriptUpload/>
             </div>
+            <button
+              onClick={uploadData}
+              disabled={!isReadyToAnalyze}
+              className="w-full max-w-xs mx-auto mt-4 button"
+            >
+              Analyze
+            </button>
+
+            {!scriptText && audioFile && (
+              <p className="text-xs text-muted-foreground text-center">
+                If no reference script provided — analysis will use audio only
+              </p>
+            )}
           </section>
 
           <Separator className="my-8" />
