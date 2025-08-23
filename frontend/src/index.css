@@ -1,15 +1,120 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+
+
+@layer base {
+  :root {
+    --background: 321 47% 97%;
+    --foreground: 234 16% 35%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 234 16% 35%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 234 16% 35%;
+
+    --primary: 265 85% 78%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 296 40% 94%;
+    --secondary-foreground: 234 16% 35%;
+
+    --muted: 296 40% 94%;
+    --muted-foreground: 234 16% 60%;
+
+    --accent: 184 65% 88%;
+    --accent-foreground: 234 16% 35%;
+
+    --destructive: 0 65% 85%;
+    --destructive-foreground: 0 45% 25%;
+
+    --border: 296 30% 88%;
+    --input: 296 30% 88%;
+    --ring: 265 85% 78%;
+
+    /* VoiceGrade specific pastel colors */
+    --recording: 348 83% 81%;
+    --recording-foreground: 0 0% 100%;
+    --success: 142 52% 73%;
+    --success-foreground: 0 0% 100%;
+    --warning: 45 86% 83%;
+    --warning-foreground: 45 26% 25%;
+
+    --radius: 0.5rem;
+
+    --sidebar-background: 0 0% 98%;
+
+    --sidebar-foreground: 240 5.3% 26.1%;
+
+    --sidebar-primary: 240 5.9% 10%;
+
+    --sidebar-primary-foreground: 0 0% 98%;
+
+    --sidebar-accent: 240 4.8% 95.9%;
+
+    --sidebar-accent-foreground: 240 5.9% 10%;
+
+    --sidebar-border: 220 13% 91%;
+
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    --background: 234 16% 12%;
+    --foreground: 296 40% 94%;
+
+    --card: 234 16% 15%;
+    --card-foreground: 296 40% 94%;
+
+    --popover: 234 16% 15%;
+    --popover-foreground: 296 40% 94%;
+
+    --primary: 265 85% 78%;
+    --primary-foreground: 234 16% 12%;
+
+    --secondary: 234 16% 18%;
+    --secondary-foreground: 296 40% 94%;
+
+    --muted: 234 16% 18%;
+    --muted-foreground: 234 16% 65%;
+
+    --accent: 184 45% 25%;
+    --accent-foreground: 296 40% 94%;
+
+    --destructive: 0 65% 70%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 234 16% 20%;
+    --input: 234 16% 20%;
+    --ring: 265 85% 78%;
+
+    /* Dark mode pastel colors */
+    --recording: 348 73% 75%;
+    --recording-foreground: 234 16% 12%;
+    --success: 142 42% 65%;
+    --success-foreground: 234 16% 12%;
+    --warning: 45 76% 75%;
+    --warning-foreground: 234 16% 12%;
+
+    --sidebar-background: 234 16% 10%;
+    --sidebar-foreground: 296 40% 90%;
+    --sidebar-primary: 265 85% 78%;
+    --sidebar-primary-foreground: 234 16% 12%;
+    --sidebar-accent: 234 16% 15%;
+    --sidebar-accent-foreground: 296 40% 90%;
+    --sidebar-border: 234 16% 20%;
+    --sidebar-ring: 265 85% 78%;
+  }
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+  }
 }

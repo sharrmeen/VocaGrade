@@ -19,3 +19,6 @@ env/
 # Ignore logs and database files
 *.log
 *.sqlite3
+
+
+node_modules/

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import "../App.css"; // Reuse existing CSS
+import "../styles/App.css"; // Reuse existing CSS
 
 const ComparePage = () => {
   const [spokenText, setSpokenText] = useState("");

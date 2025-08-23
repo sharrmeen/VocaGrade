@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import librosa.display
 from scipy.spatial.distance import euclidean
 
-# --- Configuration (same as before) ---
+# --- Configuration ---
 SAMPLE_RATE = 16000
 N_MFCC = 13
 HOP_LENGTH = 512
