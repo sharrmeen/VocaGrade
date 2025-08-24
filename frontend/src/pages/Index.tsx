@@ -110,9 +110,9 @@ const Index = () => {
           {/* Recording Section */}
           <section className="text-center space-y-6">
             <div>
-              <h2 className="text-xl font-semibold mb-2">Record Your Answer</h2>
+              <h2 className="text-xl font-semibold mb-2">Record Your Response</h2>
               <p className="text-muted-foreground max-w-2xl mx-auto">
-                Click the microphone button to start recording your spoken answer. 
+                Click the microphone button to start recording your response. 
                 You can optionally upload a reference script for comparison.
               </p>
             </div>
