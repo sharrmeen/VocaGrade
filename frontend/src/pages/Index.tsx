@@ -77,13 +77,28 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="border-b">
-        <div className="container mx-auto px-4 py-6">
-          <div className="flex items-center justify-between">
-            <div>
-              <h1 className="text-2xl font-bold">VocaGrade</h1>
-              <p className="text-muted-foreground">Evaluate spoken answers with AI-powered analysis</p>
+            
+      <header className="border-b bg-background shadow-sm">
+        <div className="container mx-auto px-6 py-4 flex items-center justify-between">
+          {/* Logo + Title */}
+          <div className="flex items-center gap-4">
+            <img 
+              src="/logo.png" 
+              alt="VocaGrade Logo" 
+              className="h-12 w-12 object-contain"
+            />
+            <div className="flex flex-col">
+              <h1 className="text-3xl font-extrabold text-foreground">
+                VocaGrade
+              </h1>
+              <p className="text-sm text-muted-foreground">
+              AI-powered insights for your spoken responses
+              </p>
             </div>
+          </div>
+
+          {/* Theme Selector */}
+          <div>
             <ThemeSelector />
           </div>
         </div>

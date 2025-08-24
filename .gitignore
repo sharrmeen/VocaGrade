@@ -22,3 +22,7 @@ env/
 
 
 node_modules/
+
+.gitignore
+
+backend/services/scriptCompare.py
