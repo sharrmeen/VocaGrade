@@ -12,6 +12,9 @@ const Index = () => {
   const [audioFile, setAudioFile] = useState<Blob | null>(null);
   const [scriptText, setScriptText] = useState<string>('');
   const [theme, setTheme] = useState<string>('');
+  const [contentData, setContentData] = useState(null);
+  const [deliveryData, setDeliveryData] = useState(null);
+
 
   const handleAudioReady = (blob: Blob) => {
     setAudioFile(blob);
@@ -19,7 +22,6 @@ const Index = () => {
     console.log('Audio size:', blob.size, 'bytes');
     console.log('Audio type:', blob.type);
     
-    // TODO: Send to FastAPI backend at /api/upload-audio
     toast({
       title: "Audio Recorded",
       description: `Successfully recorded ${(blob.size / 1024).toFixed(1)}KB audio file`,
@@ -41,13 +43,17 @@ const Index = () => {
     if (theme.trim()) formData.append("theme", theme);
   
     try {
-      const res = await fetch("http://localhost:8000/api/upload-audio", {
+      const res = await fetch("http://localhost:8000/api/process-audio", {
         method: "POST",
         body: formData,
       });
   
       const data = await res.json();
+
       console.log("Backend response:", data);
+      setContentData(data.content_analysis);
+      setDeliveryData(data.delivery_analysis);
+
       toast({ title: "Upload Complete", description: "Data sent for analysis" });
     } catch (error) {
       console.error(error);
@@ -120,8 +126,8 @@ const Index = () => {
             </div>
             
             <div className="grid gap-6 lg:grid-cols-2">
-              <ContentDashboard />
-              <DeliveryDashboard />
+              <ContentDashboard/>
+              <DeliveryDashboard data={deliveryData}/>
             </div>
           </section>
         </div>
