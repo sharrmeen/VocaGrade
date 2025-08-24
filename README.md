@@ -1,14 +1,14 @@
-# VoiceGrade
+# VocaGrade
 
 ## The smart way to analyze your speech.
 
-**VoiceGrade** is an AI-powered speech analysis tool that helps users improve spoken communication by comparing their speech to structured text. Originally designed for academic use, VoiceGrade now supports use cases in **language learning**, **public speaking**, and **content creation**.
+**VocaGrade** is an AI-powered speech analysis tool that helps users improve spoken communication by comparing their speech to structured text. Originally designed for academic use, VocaGrade now supports use cases in **language learning**, **public speaking**, and **content creation**.
 
 ---
 
 ## 🚀 Overview
 
-VoiceGrade uses speech recognition and NLP-based comparison to analyze how well a spoken response matches a given reference (script, prompt, or formal answer). It provides feedback on **fluency**, **structure**, **pronunciation**, and **content coverage**.
+VocaGrade uses speech recognition and NLP-based comparison to analyze how well a spoken response matches a given reference (script, prompt, or formal answer). It provides feedback on **fluency**, **structure**, **pronunciation**, and **content coverage**.
 
 ---
 
@@ -58,8 +58,8 @@ VoiceGrade uses speech recognition and NLP-based comparison to analyze how well 
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/VoiceGrade.git
-cd VoiceGrade/backend
+git clone https://github.com/your-username/VocaGrade.git
+cd VocaGrade/backend
 
 # Create a virtual environment
 python -m venv venv
