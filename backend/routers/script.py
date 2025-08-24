@@ -1,7 +1,7 @@
 from fastapi import APIRouter, File, UploadFile, Form, HTTPException
 import tempfile
 from pydantic import BaseModel
-from services.script_gemini import compare_script_with_transcript
+from backend.services.contentAnalyzer import compare_script_with_transcript
 from services.transcriber import transcribe_audio
 
 router = APIRouter()
