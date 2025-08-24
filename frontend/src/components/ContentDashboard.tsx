@@ -64,9 +64,7 @@ export default function ContentDashboard({ data }: ContentDashboardProps) {
           </ul>
         </div>
 
-        <div className="text-xs text-center text-muted-foreground bg-muted/50 p-3 rounded">
-          {/* This dashboard will show real content analysis once audio is processed */}
-        </div>
+        
       </CardContent>
     </Card>
   );

@@ -109,9 +109,7 @@ export default function DeliveryDashboard({ data }: DeliveryDashboardProps) {
           </div>
         </div>
 
-        <div className="text-xs text-center text-muted-foreground bg-muted/50 p-3 rounded">
-          {/* This dashboard will show real delivery metrics once audio is processed */}
-        </div>
+       
       </CardContent>
     </Card>
   );

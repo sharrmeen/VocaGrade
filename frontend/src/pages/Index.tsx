@@ -3,7 +3,8 @@ import AudioRecorder from '@/components/AudioRecorder';
 import ScriptUpload from '@/components/ScriptUpload';
 import ThemeSelector from '@/components/ThemeSelector';
 import ContentDashboard from '@/components/ContentDashboard';
-import ImprovementsDashboard from '@/components/ImprovementDashboard';
+import ImprovementDashboard from '@/components/ImprovementDashboard';
+import VocabularyDashboard from '@/components/VocabularyDashboard';
 import DeliveryDashboard from '@/components/DeliveryDashboard';
 import { Separator } from '@/components/ui/separator';
 import { useToast } from '@/hooks/use-toast';
@@ -16,6 +17,7 @@ const Index = () => {
   const [contentData, setContentData] = useState(null);
   const [deliveryData, setDeliveryData] = useState(null);
   const [improvementData, setImprovementData] = useState(null);
+  const [vocabularyData, setVocabularyData] = useState(null);
   
 
   const handleAudioReady = (blob: Blob) => {
@@ -55,6 +57,7 @@ const Index = () => {
       console.log("Backend response:", data);
       setContentData(data.content_analysis);
       setDeliveryData(data.delivery_analysis);
+      setVocabularyData(data.content_analysis.vocabulary);
       setImprovementData(data?.content_analysis?.improvements || {
         contentSuggestions: [],
         deliverySuggestions: [],
@@ -135,7 +138,8 @@ const Index = () => {
             <div className="grid gap-6 lg:grid-cols-2">
               <ContentDashboard data={contentData}/>
               <DeliveryDashboard data={deliveryData}/>
-              <ImprovementsDashboard data={improvementData}/>
+              <ImprovementDashboard data={improvementData}/>
+              <VocabularyDashboard data={vocabularyData}/>
             </div>
           </section>
         </div>

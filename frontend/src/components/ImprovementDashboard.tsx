@@ -68,9 +68,7 @@ export default function ImprovementDashboard({ data }: ImprovementDashboardProps
             );
           })}
         </div>
-        <div className="text-xs text-center text-muted-foreground bg-muted/50 p-3 rounded">
-          AI-generated improvement tips based on your content and delivery metrics.
-        </div>
+        
       </CardContent>
     </Card>
   );
