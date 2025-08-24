@@ -1,7 +1,7 @@
 import { useState, useRef, useCallback } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import { Mic, Square, Play, Pause, Download } from 'lucide-react';
+import { Mic, Square, Play, Pause, Download, Upload } from 'lucide-react';
 import { Dispatch, SetStateAction } from "react";
 import { cn } from '@/lib/utils';
 
@@ -11,15 +11,12 @@ interface AudioRecorderProps {
   setTheme: Dispatch<SetStateAction<string>>;
 }
 
-
-
-export default function AudioRecorder({ onAudioReady,theme,setTheme }: AudioRecorderProps) {
+export default function AudioRecorder({ onAudioReady, theme, setTheme }: AudioRecorderProps) {
   const [isRecording, setIsRecording] = useState(false);
   const [audioBlob, setAudioBlob] = useState<Blob | null>(null);
   const [audioUrl, setAudioUrl] = useState<string | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [recordingTime, setRecordingTime] = useState(0);
-
 
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -32,7 +29,7 @@ export default function AudioRecorder({ onAudioReady,theme,setTheme }: AudioReco
       mediaRecorderRef.current = mediaRecorder;
 
       const chunks: BlobPart[] = [];
-      
+
       mediaRecorder.ondataavailable = (event) => {
         if (event.data.size > 0) {
           chunks.push(event.data);
@@ -45,7 +42,7 @@ export default function AudioRecorder({ onAudioReady,theme,setTheme }: AudioReco
         const url = URL.createObjectURL(blob);
         setAudioUrl(url);
         onAudioReady?.(blob);
-        
+
         // Clean up stream
         stream.getTracks().forEach(track => track.stop());
       };
@@ -53,7 +50,7 @@ export default function AudioRecorder({ onAudioReady,theme,setTheme }: AudioReco
       mediaRecorder.start();
       setIsRecording(true);
       setRecordingTime(0);
-      
+
       // Start timer
       timerRef.current = setInterval(() => {
         setRecordingTime(prev => prev + 1);
@@ -68,7 +65,7 @@ export default function AudioRecorder({ onAudioReady,theme,setTheme }: AudioReco
     if (mediaRecorderRef.current && isRecording) {
       mediaRecorderRef.current.stop();
       setIsRecording(false);
-      
+
       if (timerRef.current) {
         clearInterval(timerRef.current);
         timerRef.current = null;
@@ -99,6 +96,19 @@ export default function AudioRecorder({ onAudioReady,theme,setTheme }: AudioReco
     }
   }, [audioUrl]);
 
+  const handleFileUpload = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setAudioBlob(file);
+      const url = URL.createObjectURL(file);
+      setAudioUrl(url);
+      onAudioReady?.(file);
+      setIsRecording(false);
+      if (timerRef.current) clearInterval(timerRef.current);
+      setRecordingTime(0);
+    }
+  }, [onAudioReady]);
+
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
@@ -117,7 +127,7 @@ export default function AudioRecorder({ onAudioReady,theme,setTheme }: AudioReco
           )}
         </div>
 
-        <div className="flex justify-center">
+        <div className="flex justify-center gap-4">
           {!isRecording ? (
             <Button
               size="lg"
@@ -135,6 +145,18 @@ export default function AudioRecorder({ onAudioReady,theme,setTheme }: AudioReco
               <Square className="h-6 w-6" />
             </Button>
           )}
+
+          {/* Upload Button */}
+          <label htmlFor="fileUpload" className="w-16 h-16 flex items-center justify-center rounded-full bg-secondary hover:bg-secondary/90 cursor-pointer">
+            <Upload className="h-6 w-6" />
+          </label>
+          <input
+            type="file"
+            id="fileUpload"
+            accept="audio/*"
+            className="hidden"
+            onChange={handleFileUpload}
+          />
         </div>
 
         {audioUrl && (
@@ -145,20 +167,16 @@ export default function AudioRecorder({ onAudioReady,theme,setTheme }: AudioReco
               onEnded={() => setIsPlaying(false)}
               className="hidden"
             />
-            
+
             <div className="flex items-center justify-center space-x-2">
               <Button
                 variant="outline"
                 size="sm"
                 onClick={togglePlayback}
               >
-                {isPlaying ? (
-                  <Pause className="h-4 w-4" />
-                ) : (
-                  <Play className="h-4 w-4" />
-                )}
+                {isPlaying ? <Pause className="h-4 w-4" /> : <Play className="h-4 w-4" />}
               </Button>
-              
+
               <Button
                 variant="outline"
                 size="sm"
@@ -169,7 +187,7 @@ export default function AudioRecorder({ onAudioReady,theme,setTheme }: AudioReco
             </div>
 
             <div className="text-xs text-center text-muted-foreground">
-              Audio recorded successfully
+              Audio ready
             </div>
           </div>
         )}
@@ -180,21 +198,18 @@ export default function AudioRecorder({ onAudioReady,theme,setTheme }: AudioReco
             "bg-recording"
           )} />
         )}
-        <div className="space-y-2 mt-6" style={{marginTop:'50px'}}>
-        <label className="text-sm font-medium">Enter a theme (optional)</label>
-        <input
-          
-          type="text"
-          value={theme}
-          onChange={(e) => setTheme(e.target.value)}
-          className="theme-input"
-          placeholder="e.g. Climate Change, AI Ethics..."
-        />
-        </div>
 
-        
+        <div className="space-y-2 mt-6" style={{marginTop:'50px'}}>
+          <label className="text-sm font-medium">Enter a theme (optional)</label>
+          <input
+            type="text"
+            value={theme}
+            onChange={(e) => setTheme(e.target.value)}
+            className="theme-input"
+            placeholder="e.g. Climate Change, AI Ethics..."
+          />
+        </div>
       </CardContent>
-      
     </Card>
   );
 }

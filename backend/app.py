@@ -55,7 +55,7 @@ async def process_audio(
 
     # Run delivery analysis on saved audio
     delivery_metrics=analyze_audio(audio_path)
-    content_metrics=analyze_content(audio_path,script_path,delivery_metrics,theme)
+    content_metrics=analyze_content(audio_path,delivery_metrics,script_path,theme)
     
 
     return {
